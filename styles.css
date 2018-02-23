@@ -109,7 +109,7 @@ Calculator
 
 #calculator-body {
   border: 1px solid lightblue;
-  height: 483px;
+  height: 480px;
   width: 318px;
   box-shadow: 4px 5px 5px #ccc;
   background-color:#eaebed;
@@ -122,10 +122,6 @@ Calculator
 .standard,
 #calculator-screen {
   margin: 2px;
-}
-
-.number {
-  background-color: white;
 }
 
 /*
@@ -142,7 +138,7 @@ Header
 
 /*
 ============================
-Buttons
+Button Grid
 ============================
 */
 
@@ -161,15 +157,27 @@ Buttons
   justify-content: center;
 }
 
-.calculator-grid-buttons div:hover {
-  background-color: #ccc;
-  cursor: default;
-  border: 2px solid #f2f2f2;
+#calculator-screen {
+  text-align: right;
+  position: relative;
 }
 
-.operand:hover {
-  background-color: lightblue;
+#calculator-screen h1 {
+  font-family: 'Lato', sans-serif;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 45px;
+  padding: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
+
+/*
+============================
+Operands
+============================
+*/
 
 #add:hover,
 #multiply:hover,
@@ -177,4 +185,48 @@ Buttons
 #subtract:hover,
 #equals:hover {
   background-color: lightblue;
+  color: white;
+}
+
+#add:active,
+#multiply:active,
+#divide:active,
+#subtract:active,
+#equals:active {
+  background-color: blue;
+}
+
+#multiply,
+#subtract {
+  margin-top: -6px;
+}
+
+
+/*
+============================
+Buttons
+============================
+*/
+
+button {
+  border: none;
+  background-color: #f7f7f7;
+  height: 100%;
+  width: 100%;
+  outline: none;
+}
+
+.number button {
+  background-color: white;
+}
+
+button:hover {
+  background-color: #e5e5e5;
+  cursor: default;
+  border: 1px solid #f2f2f2;
+  outline: none;
+}
+
+button:active {
+  background-color: #ccc;
 }
