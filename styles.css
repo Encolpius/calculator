@@ -77,11 +77,6 @@ Typography
 ============================
 */
 
-h1 {
-  font-size: 22px;
-  font-family: 'Open Sans', sans-serif;
-}
-
 h2 {
   font-size: 19px;
   font-family: 'Lato', sans-serif;
@@ -111,7 +106,7 @@ Calculator
   border: 1px solid lightblue;
   height: 480px;
   width: 318px;
-  box-shadow: 4px 5px 5px #ccc;
+  box-shadow: 4px 5px 14px #ccc;
   background-color:#eaebed;
   display: grid;
   grid-template-rows: 78px 126px auto;
@@ -196,10 +191,7 @@ Operands
   background-color: blue;
 }
 
-#multiply,
-#subtract {
-  margin-top: -6px;
-}
+
 
 
 /*
@@ -214,9 +206,12 @@ button {
   height: 100%;
   width: 100%;
   outline: none;
+  font-size: 22px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .number button {
+  font-weight: 700;
   background-color: white;
 }
 
