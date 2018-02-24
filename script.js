@@ -4,34 +4,40 @@ $(document).ready(function() {
   let screen = document.getElementById('screen')
 
   var total = 0;
+  let clickCounter = 0;
+  var current, currentOperand, stored;
 
 
   // Basic Operand Functions
 
-  function add(num) {
-    total += num;
-    console.log(total);
+  let addition = function add(total, num) {
+    total += num
+    return total;
   }
 
-  function subtract(num) {
-    total -= num;
-    console.log(total);
+  let subtraction = function subtract(total, num) {
+    total = stored - total;
+    return total;
   }
 
-  function multiply(num) {
+  let multiplication = function multiply(total, num) {
     total *= num;
-    console.log(total);
+    return total;
   }
 
-  function divide(num) {
-    total /= num;
-    console.log(total);
+  let division = function divide(total, num) {
+    total = stored / total;
+    return total;
   }
 
   // Displays On Screen
 
   function display() {
     $('.number-button').click(function() {
+      if (clickCounter === 1) {
+        total = 0;
+        clickCounter = 0;
+      }
       if (total === 0) {
         total = $(this).val();
       } else {
@@ -41,15 +47,47 @@ $(document).ready(function() {
     })
   }
 
-  function operate(total, current, operand) {
+  // Doing The Math
+  function math() {
+    $('.operand').click(function() {
+      stored = total;
+      let operand = $(this).val();
+      if ($(this).val() === 'add') {
+        currentOperand = addition;
 
+      } else if ($(this).val() === 'subtract') {
+        currentOperand = subtraction;
+
+      } else if ($(this).val() === 'multiply') {
+        currentOperand = multiplication;
+
+      } else if ($(this).val() === 'divide') {
+        currentOperand = division;
+      }
+      clickCounter = 1;
+    })
   }
 
+  function equals() {
+    $('#equals').click(function() {
+      total = Number(total);
+      stored = Number(stored)
+      operate(stored, total, currentOperand);
+      screen.textContent = total;
+      clickCounter = 0;
+    })
+  }
+
+  function operate(num1, num2, operation) {
+    total = currentOperand(total, stored);
+    screen.textContent = total;
+  }
 
   //Clears everything
   function clearAll() {
     $('#clear-all').click(function() {
       total = 0;
+      stored = 0;
       screen.textContent = total;
       return total;
     });
@@ -58,16 +96,18 @@ $(document).ready(function() {
   //Undoes The Last Number
   function undo() {
     $('#undo').click(function() {
-      if (total == 0) {
-        return 0;
-      } else {
-        total = total.split('');
-        total.pop()
-        total = total.join('');
-        if (total.length === 0) {
-          total = 0;
+      if (clickCounter == 0) {
+        if (total == 0) {
+          return 0;
+        } else {
+          total = total.toString().split('');
+          total.pop()
+          total = total.join('');
+          if (total.length === 0) {
+            total = 0;
+          }
+          screen.textContent = total;
         }
-        screen.textContent = total;
       }
     })
   }
@@ -76,5 +116,7 @@ $(document).ready(function() {
 display();
 clearAll();
 undo();
+math()
+equals();
 
 })
