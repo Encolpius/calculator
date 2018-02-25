@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 /* Global Variables */
-  let screen = document.getElementById('screen')
+  let screen = document.getElementById('screen');
 
   var total = 0;
   let clickCounter = 0;
@@ -11,7 +11,7 @@ $(document).ready(function() {
   // Basic Operand Functions
 
   let addition = function add(total, num) {
-    total += num
+    total += stored
     return total;
   }
 
@@ -21,14 +21,14 @@ $(document).ready(function() {
   }
 
   let multiplication = function multiply(total, num) {
-    total *= num;
+    total *= stored;
     return total;
   }
 
   let division = function divide(total, num) {
     total = stored / total;
     return total;
-  }
+  };
 
   // Displays On Screen
 
@@ -44,8 +44,8 @@ $(document).ready(function() {
         total += $(this).val();
       }
       screen.textContent = total;
-    })
-  }
+    });
+  };
 
   // Doing The Math
   function math() {
@@ -65,8 +65,8 @@ $(document).ready(function() {
         currentOperand = division;
       }
       clickCounter = 1;
-    })
-  }
+    });
+  };
 
   function equals() {
     $('#equals').click(function() {
@@ -75,13 +75,22 @@ $(document).ready(function() {
       operate(stored, total, currentOperand);
       screen.textContent = total;
       clickCounter = 0;
-    })
+    });
   }
 
   function operate(num1, num2, operation) {
     total = currentOperand(total, stored);
     screen.textContent = total;
-  }
+  };
+
+  //Clears Current Value
+  function clear() {
+    $('#clear').click(function() {
+      total = 0;
+      screen.textContent = total;
+      return total;
+    });
+  };
 
   //Clears everything
   function clearAll() {
@@ -107,10 +116,10 @@ $(document).ready(function() {
             total = 0;
           }
           screen.textContent = total;
-        }
-      }
-    })
-  }
+        };
+      };
+    });
+  };
 
 
 display();
@@ -118,5 +127,6 @@ clearAll();
 undo();
 math()
 equals();
+clear();
 
-})
+});
