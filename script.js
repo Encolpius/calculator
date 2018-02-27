@@ -48,6 +48,10 @@ $(document).ready(function() {
         currentSetting = 0;
       };
 
+      if (currentSetting === 3) {
+        total = 0;
+      };
+
       if (total === 0) {
         total = $(this).val();
       } else {
@@ -64,7 +68,6 @@ $(document).ready(function() {
   // Doing The Math
   function math() {
     $('.operand').click(function() {
-
       if (currentSetting != 3) {
         if (stored > 0 && current > 0) {
           current = Number(current);
@@ -124,6 +127,7 @@ $(document).ready(function() {
     $('#clear-all').click(function() {
       total = 0;
       stored = 0;
+      currentOperand = null;
       screen.textContent = total;
       return total;
     });
@@ -131,13 +135,15 @@ $(document).ready(function() {
 
   //Adds a decimal
   function addDecimal() {
+    var decimal = "."
     $('#decimal').click(function() {
       if (currentSetting === 1) {
         total = 0;
         currentSetting = 0;
       };
-
-      total = total + $(this).val()
+      if (total.indexOf(decimal) === -1) {
+        total = current + decimal;
+      }
       screen.textContent = total;
     });
   }
@@ -145,7 +151,6 @@ $(document).ready(function() {
   //Undoes The Last Number
   function undo() {
     $('#undo').click(function() {
-      console.log(currentSetting);
       if (currentSetting == 0) {
         if (total == 0) {
           return 0;
