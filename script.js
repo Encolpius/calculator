@@ -8,6 +8,8 @@ $(document).ready(function() {
   var total = 0;
   let currentSetting = 0;
   var current, currentOperand, stored;
+  var positiveOrNegative = 'positive';
+  var negative = "-"
 
 
   // Basic Operand Functions
@@ -30,6 +32,9 @@ $(document).ready(function() {
 
   let division = function divide(total, num) {
     total = stored / current;
+    if (total === Infinity) {
+      total = "Error";
+    }
     return total;
   };
 
@@ -59,6 +64,13 @@ $(document).ready(function() {
   // Doing The Math
   function math() {
     $('.operand').click(function() {
+
+      if (stored > 0 && current > 0) {
+        current = Number(current);
+        stored = Number(stored);
+        operate(current, stored, currentOperand);
+      }
+
       stored = total;
       let operand = $(this).val();
       if ($(this).val() === 'add') {
@@ -80,7 +92,7 @@ $(document).ready(function() {
   function equals() {
     $('#equals').click(function() {
       current = Number(current);
-      stored = Number(stored)
+      stored = Number(stored);
       operate(current, stored, currentOperand);
       if (total.toString().length >= 11) {
         total = total.toString().slice(0, 11)
@@ -148,6 +160,24 @@ $(document).ready(function() {
     });
   };
 
+  function positiveNegative() {
+    $('#positive-negative').click(function() {
+      if (positiveOrNegative === 'positive') {
+        total *= -1;
+        screen.textContent = total;
+        positiveOrNegative = 'negative';
+        current = total;
+        return total;
+      } else if (positiveOrNegative = 'negative') {
+        total *= -1;
+        screen.textContent = total;
+        positiveOrNegative = 'positive'
+        current = total;
+        return total;
+      }
+    });
+  }
+
 
 addDecimal();
 display();
@@ -156,6 +186,7 @@ undo();
 math()
 equals();
 clear();
+positiveNegative();
 
 
 });

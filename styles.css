@@ -65,7 +65,7 @@ Custom Styles
 }
 
 body {
-  height: 80vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,8 +104,6 @@ Calculator
 
 #calculator-body {
   border: 1px solid lightblue;
-  height: 480px;
-  width: 318px;
   box-shadow: 4px 5px 14px #ccc;
   background-color:#eaebed;
   display: grid;
