@@ -76,6 +76,11 @@ $(document).ready(function() {
           current = Number(current);
           stored = Number(stored);
           operate(current, stored, currentOperand);
+          if (total.toString().length >= 11) {
+            total = total.toString().slice(0, 11)
+            total = Number(total);
+            total = total.toFixed(4);
+          }
         };
       };
 
@@ -123,11 +128,9 @@ $(document).ready(function() {
   //Clears Current Value
   function clear() {
     $('#clear').click(function() {
-      stored = current;
       current = 0;
       total = current;
       screen.textContent = total;
-      return total;
     });
   };
 
