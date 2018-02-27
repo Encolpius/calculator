@@ -1,49 +1,58 @@
 $(document).ready(function() {
 
 /* Global Variables */
+
+
   let screen = document.getElementById('screen');
 
   var total = 0;
-  let clickCounter = 0;
+  let currentSetting = 0;
   var current, currentOperand, stored;
 
 
   // Basic Operand Functions
 
+
   let addition = function add(total, num) {
-    total += stored
+    total = stored + current;
     return total;
   }
 
   let subtraction = function subtract(total, num) {
-    total = stored - total;
+    total = stored - current;
     return total;
   }
 
   let multiplication = function multiply(total, num) {
-    total *= stored;
+    total = stored * current;
     return total;
   }
 
   let division = function divide(total, num) {
-    total = stored / total;
+    total = stored / current;
     return total;
   };
 
   // Displays On Screen
 
   function display() {
+
     $('.number-button').click(function() {
-      if (clickCounter === 1) {
+      if (currentSetting === 1) {
         total = 0;
-        clickCounter = 0;
-      }
+        currentSetting = 0;
+      };
+
       if (total === 0) {
         total = $(this).val();
       } else {
         total += $(this).val();
       }
       screen.textContent = total;
+      if (total.length >= 10) {
+        total = total.slice(0, 10)
+      }
+      current = total;
     });
   };
 
@@ -64,17 +73,21 @@ $(document).ready(function() {
       } else if ($(this).val() === 'divide') {
         currentOperand = division;
       }
-      clickCounter = 1;
+      currentSetting = 1;
     });
   };
 
   function equals() {
     $('#equals').click(function() {
-      total = Number(total);
+      current = Number(current);
       stored = Number(stored)
-      operate(stored, total, currentOperand);
+      operate(current, stored, currentOperand);
+      if (total.toString().length >= 11) {
+        total = total.toString().slice(0, 11)
+      }
       screen.textContent = total;
-      clickCounter = 0;
+      stored = total;
+      currentSetting = 3;
     });
   }
 
@@ -102,10 +115,24 @@ $(document).ready(function() {
     });
   };
 
+  //Adds a decimal
+  function addDecimal() {
+    $('#decimal').click(function() {
+      if (currentSetting === 1) {
+        total = 0;
+        currentSetting = 0;
+      };
+
+      total = total + $(this).val()
+      screen.textContent = total;
+    });
+  }
+
   //Undoes The Last Number
   function undo() {
     $('#undo').click(function() {
-      if (clickCounter == 0) {
+      console.log(currentSetting);
+      if (currentSetting == 0) {
         if (total == 0) {
           return 0;
         } else {
@@ -122,11 +149,13 @@ $(document).ready(function() {
   };
 
 
+addDecimal();
 display();
 clearAll();
 undo();
 math()
 equals();
 clear();
+
 
 });

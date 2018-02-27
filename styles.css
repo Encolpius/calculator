@@ -191,8 +191,9 @@ Operands
   background-color: blue;
 }
 
-
-
+#zero {
+  width: span 2;
+}
 
 /*
 ============================
