@@ -65,10 +65,12 @@ $(document).ready(function() {
   function math() {
     $('.operand').click(function() {
 
-      if (stored > 0 && current > 0) {
-        current = Number(current);
-        stored = Number(stored);
-        operate(current, stored, currentOperand);
+      if (currentSetting != 3) {
+        if (stored > 0 && current > 0) {
+          current = Number(current);
+          stored = Number(stored);
+          operate(current, stored, currentOperand);
+        }
       }
 
       stored = total;
