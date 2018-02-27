@@ -50,6 +50,7 @@ $(document).ready(function() {
 
       if (currentSetting === 3) {
         total = 0;
+        currentSetting = 0;
       };
 
       if (total === 0) {
@@ -68,13 +69,16 @@ $(document).ready(function() {
   // Doing The Math
   function math() {
     $('.operand').click(function() {
-      if (currentSetting != 3) {
-        if (stored > 0 && current > 0) {
+      console.log(currentSetting);
+
+      if (currentSetting != 1) {
+        if (stored > 0 && current === total) {
           current = Number(current);
           stored = Number(stored);
           operate(current, stored, currentOperand);
-        }
-      }
+        };
+      };
+
 
       stored = total;
       let operand = $(this).val();
@@ -101,7 +105,10 @@ $(document).ready(function() {
       operate(current, stored, currentOperand);
       if (total.toString().length >= 11) {
         total = total.toString().slice(0, 11)
+        total = Number(total);
+        total = total.toFixed(4);
       }
+
       screen.textContent = total;
       stored = total;
       currentSetting = 3;
@@ -116,7 +123,9 @@ $(document).ready(function() {
   //Clears Current Value
   function clear() {
     $('#clear').click(function() {
-      total = 0;
+      stored = current;
+      current = 0;
+      total = current;
       screen.textContent = total;
       return total;
     });
@@ -141,9 +150,15 @@ $(document).ready(function() {
         total = 0;
         currentSetting = 0;
       };
+
+      if (total === 0) {
+        total = total + decimal;
+      };
+
       if (total.indexOf(decimal) === -1) {
         total = current + decimal;
-      }
+      };
+
       screen.textContent = total;
     });
   }
@@ -184,7 +199,6 @@ $(document).ready(function() {
       }
     });
   }
-
 
 addDecimal();
 display();
