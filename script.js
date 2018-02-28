@@ -2,14 +2,206 @@ $(document).ready(function() {
 
 /* Global Variables */
 
+  function calculator() {
 
-  let screen = document.getElementById('screen');
+    let screen = document.getElementById('screen');
 
+    var disabled;
+    var currentNum = 0;
+    var storedNum = 0;
+    var currentOperand = undefined;
+    var currentIterator = undefined;
+    var currentSetting = 0;
+    let clickCounter = 0;
+
+    // Operand functions
+    function add(currentIterator, storedNum) {
+      currentNum = storedNum + currentIterator;
+      return currentNum;
+    };
+
+    function multiply(currentIterator, storedNum) {
+      currentNum = storedNum * currentIterator;
+      return currentNum;
+    };
+
+    function subtract(currentIterator, storedNum) {
+      currentNum = storedNum - currentIterator;
+    };
+
+    function divide(currentIterator, storedNum) {
+      currentNum = storedNum / currentIterator;
+      if (currentNum === Infinity) {
+        currentNum = "Error!";
+      }
+    };
+
+
+    // Displays on Calculator Screen
+    function displayOnScreen() {
+      $('.number-button').click(function() {
+        if (currentNum === 0) {
+          currentNum = $(this).val();
+
+        } else {
+          currentNum += $(this).val();
+
+        };
+        if (currentNum.length >= 11) {
+          currentNum = currentNum.slice(0, 11)
+        }
+        screen.textContent = currentNum;
+        currentIterator = currentNum;
+        clickCounter = 0;
+      });
+    };
+
+    //Calculates the math
+    function calculate(currentNum, storedNum, currentOperand) {
+      currentNum = currentOperand(currentNum, storedNum);
+
+    };
+
+    function operate() {
+      $('.operand').click(function() {
+
+        if (currentSetting === 1 && clickCounter < 1) {
+
+          currentNum = Number(currentNum);
+          storedNum = Number(storedNum);
+          currentIterator = Number(currentIterator);
+
+          calculate(currentIterator, storedNum, currentOperand);
+          checkLength(currentNum);
+
+          screen.textContent = currentNum;
+          setTimeout('$("#btn").removeAttr("disabled")', 1500);
+        } else if
+          (currentSetting === 2) {
+            currentIterator = Number(storedNum);
+          }
+
+
+        let operand = $(this).val();
+        getOperand(operand);
+
+        if (clickCounter < 1) {
+          storedNum = Number(currentNum);
+          currentNum = 0;
+        };
+        clickCounter++;
+        currentSetting = 1;
+      });
+    };
+
+    //Gets the right operand to use
+    function getOperand(operand) {
+      if (operand === 'add') {
+        currentOperand = add;
+      } else if (operand === 'subtract') {
+        currentOperand = subtract;
+
+      } else if (operand === 'multiply') {
+        currentOperand = multiply;
+
+      } else if (operand === 'divide') {
+        currentOperand = divide;
+      }
+
+      //storedNum = currentNum;
+      return currentOperand;
+    };
+
+    function equals() {
+
+      $('#equals').click(function() {
+
+        if (currentOperand === undefined) {
+          return null;
+        };
+
+        if (currentNum === 0) {
+          currentNum = storedNum;
+        };
+
+        currentNum = Number(currentNum);
+        storedNum = Number(storedNum);
+        currentIterator = Number(currentIterator)
+
+        calculate(currentNum, storedNum, currentOperand);
+        checkLength(currentNum);
+
+        screen.textContent = currentNum;
+        storedNum = currentIterator;
+        currentSetting = 2;
+      });
+    };
+
+    function checkLength(num) {
+      var decimal = ".";
+      currentNum = currentNum.toString();
+      if (currentNum.length <= 11) {
+        return true;
+      } else {
+        if (currentNum.indexOf(decimal) === -1) {
+          currentNum = currentNum.slice(0,11);
+          currentNum = Number(currentNum)
+        }
+        return currentNum;
+      }
+    }
+
+    //Adds a decimal
+    function addDecimal() {
+
+      var decimal = "."
+      $('#decimal').click(function() {
+        if (currentSetting === 0 || currentSetting === 2) {
+          currentNum = 0;
+        };
+
+        if (currentNum === 0) {
+          currentNum += decimal;
+        };
+
+        if (currentNum.indexOf(decimal) === -1) {
+          currentNum += decimal;
+        };
+        screen.textContent = currentNum;
+      });
+    }
+
+    //Undoes The Last Number
+    function undo() {
+      $('#undo').click(function() {
+        if (currentSetting == 0) {
+          if (currentNum == 0) {
+            return 0;
+          } else {
+            currentNum = currentNum.toString().split('');
+            currentNum.pop()
+            currentNum = currentNum.join('');
+            if (currentNum.length === 0) {
+              currentNum = 0;
+            }
+            screen.textContent = currentNum;
+          };
+        };
+      });
+    };
+
+    addDecimal();
+    displayOnScreen();
+    operate();
+    equals();
+    undo();
+  }
+
+/*
   var total = 0;
   let currentSetting = 0;
   var current, currentOperand, stored;
   var positiveOrNegative = 'positive';
-  var negative = "-"
 
 
   // Basic Operand Functions
@@ -69,21 +261,19 @@ $(document).ready(function() {
   // Doing The Math
   function math() {
     $('.operand').click(function() {
-      console.log(currentSetting);
-
-      if (currentSetting != 1) {
-        if (stored > 0 && current === total) {
+      if (currentSetting != 1 && currentOperand != undefined) {
+        if (stored > -Infinity && current === total) {
           current = Number(current);
           stored = Number(stored);
           operate(current, stored, currentOperand);
+          console.log(total)
           if (total.toString().length >= 11) {
             total = total.toString().slice(0, 11)
             total = Number(total);
             total = total.toFixed(4);
-          }
+          };
         };
       };
-
 
       stored = total;
       let operand = $(this).val();
@@ -105,6 +295,11 @@ $(document).ready(function() {
 
   function equals() {
     $('#equals').click(function() {
+
+      if (currentOperand === undefined) {
+        return null;
+      };
+
       current = Number(current);
       stored = Number(stored);
       operate(current, stored, currentOperand);
@@ -139,9 +334,9 @@ $(document).ready(function() {
     $('#clear-all').click(function() {
       total = 0;
       stored = 0;
-      currentOperand = null;
+      currentOperand = undefined;
       screen.textContent = total;
-      return total;
+      currentSetting = 1;
     });
   };
 
@@ -189,19 +384,20 @@ $(document).ready(function() {
     $('#positive-negative').click(function() {
       if (positiveOrNegative === 'positive') {
         total *= -1;
-        screen.textContent = total;
         positiveOrNegative = 'negative';
         current = total;
-        return total;
       } else if (positiveOrNegative = 'negative') {
         total *= -1;
-        screen.textContent = total;
         positiveOrNegative = 'positive'
         current = total;
-        return total;
       }
+        currentSetting = 1;
+        screen.textContent = total;
+        return total;
     });
   }
+
+
 
 addDecimal();
 display();
@@ -210,7 +406,8 @@ undo();
 math()
 equals();
 clear();
-positiveNegative();
+positiveNegative();        */
 
+calculator()
 
 });
