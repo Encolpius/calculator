@@ -56,7 +56,11 @@ $(document).ready(function() {
         };
 
         if (currentNum === 0) {
-          currentNum = $(this).val();
+          if ($(this).val() === '0') {
+            return null;
+          } else {
+            currentNum = $(this).val();
+          };
         } else {
           currentNum += $(this).val();
         };
@@ -225,7 +229,6 @@ $(document).ready(function() {
         screen.textContent = currentNum;
       });
     };
-
 
     addDecimal();
     displayOnScreen();

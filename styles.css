@@ -105,7 +105,7 @@ Calculator
 #calculator-body {
   border: 1px solid lightblue;
   box-shadow: 4px 5px 14px #ccc;
-  background-color:#eaebed;
+  background-color: #eaebed;
   display: grid;
   grid-template-rows: 78px 126px auto;
   grid-gap: 2px;
@@ -116,6 +116,7 @@ Calculator
 #calculator-screen {
   margin: 2px;
 }
+
 
 /*
 ============================
@@ -142,6 +143,10 @@ Button Grid
   grid-template-rows: repeat(5, 49px);
   grid-gap: 4px;
   overflow: hidden;
+}
+
+#zero {
+  grid-column: span 2;
 }
 
 .calculator-grid-buttons > div {
