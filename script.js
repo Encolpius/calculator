@@ -41,7 +41,7 @@ $(document).ready(function() {
         currentNum = storedNum / currentIterator;
       } else {
         currentNum = currentNum / storedNum;
-      }
+      };
         currentSetting = 2;
         return currentNum;
       };
@@ -50,16 +50,21 @@ $(document).ready(function() {
     // Displays on Calculator Screen
     function displayOnScreen() {
       $('.number-button').click(function() {
+
+        if (currentSetting === 2) {
+          currentNum = 0;
+        };
+
         if (currentNum === 0) {
           currentNum = $(this).val();
-
         } else {
           currentNum += $(this).val();
-
         };
+
         if (currentNum.length >= 11) {
           currentNum = currentNum.slice(0, 11)
-        }
+        };
+
         screen.textContent = currentNum;
         currentIterator = currentNum;
         clickCounter = 0;
@@ -72,37 +77,31 @@ $(document).ready(function() {
       if (currentOperand === undefined) {
         return null;
       };
-
       currentNum = currentOperand(currentNum, storedNum);
-
     };
 
     function operate() {
       $('.operand').click(function() {
 
         if (currentSetting === 1 && clickCounter < 1) {
-
           currentNum = Number(currentNum);
           storedNum = Number(storedNum);
           currentIterator = Number(currentIterator);
-
           calculate(currentIterator, storedNum, currentOperand);
           checkLength(currentNum);
-
           screen.textContent = currentNum;
         } else if
           (currentSetting === 2) {
             storedNum = currentNum;
             currentIterator = Number(storedNum);
-          }
-
+          };
 
         let operand = $(this).val();
         getOperand(operand);
-
         if (clickCounter < 1) {
           storedNum = Number(currentNum);
         };
+
         currentNum = 0;
         clickCounter++;
         currentSetting = 1;
@@ -121,14 +120,12 @@ $(document).ready(function() {
 
       } else if (operand === 'divide') {
         currentOperand = divide;
-      }
+      };
 
-      //storedNum = currentNum;
       return currentOperand;
     };
 
     function equals() {
-
       $('#equals').click(function() {
 
         if (currentOperand === undefined && currentNum === 0 || storedNum === 0) {
@@ -160,8 +157,12 @@ $(document).ready(function() {
         return true;
       } else {
         if (currentNum.indexOf(decimal) === -1) {
-          currentNum = currentNum.slice(0,11);
+          currentNum = currentNum.slice(0,8)
           currentNum = Number(currentNum)
+        } else {
+          currentNum = currentNum.toString().slice(0, 11)
+          currentNum = Number(currentNum);
+          currentNum = currentNum.toFixed(4);
         }
         return currentNum;
       }
@@ -217,12 +218,22 @@ $(document).ready(function() {
       });
     };
 
+    //Clears Current Value
+    function clear() {
+      $('#clear').click(function() {
+        currentNum = 0;
+        screen.textContent = currentNum;
+      });
+    };
+
+
     addDecimal();
     displayOnScreen();
     operate();
     equals();
     undo();
     clearAll();
+    clear();
   }
 
 /*
