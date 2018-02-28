@@ -53,6 +53,8 @@ $(document).ready(function() {
 
         if (currentSetting === 2) {
           currentNum = 0;
+          storedNum = 0;
+          currentSetting = 0;
         };
 
         if (currentNum === 0) {
@@ -179,6 +181,7 @@ $(document).ready(function() {
       $('#decimal').click(function() {
         if (currentSetting === 2) {
           currentNum = 0;
+          currentSetting = 0;
         };
 
         if (currentNum === 0) {
