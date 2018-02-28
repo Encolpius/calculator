@@ -26,15 +26,25 @@ $(document).ready(function() {
     };
 
     function subtract(currentIterator, storedNum) {
+
+    if (currentSetting != 2) {
       currentNum = storedNum - currentIterator;
+    } else {
+      currentNum = currentNum - storedNum;
+    }
+      currentSetting = 2;
+      return currentNum;
     };
 
     function divide(currentIterator, storedNum) {
-      currentNum = storedNum / currentIterator;
-      if (currentNum === Infinity) {
-        currentNum = "Error!";
+      if (currentSetting != 2) {
+        currentNum = storedNum / currentIterator;
+      } else {
+        currentNum = currentNum / storedNum;
       }
-    };
+        currentSetting = 2;
+        return currentNum;
+      };
 
 
     // Displays on Calculator Screen
@@ -58,6 +68,11 @@ $(document).ready(function() {
 
     //Calculates the math
     function calculate(currentNum, storedNum, currentOperand) {
+
+      if (currentOperand === undefined) {
+        return null;
+      };
+
       currentNum = currentOperand(currentNum, storedNum);
 
     };
@@ -75,9 +90,9 @@ $(document).ready(function() {
           checkLength(currentNum);
 
           screen.textContent = currentNum;
-          setTimeout('$("#btn").removeAttr("disabled")', 1500);
         } else if
           (currentSetting === 2) {
+            storedNum = currentNum;
             currentIterator = Number(storedNum);
           }
 
@@ -87,8 +102,8 @@ $(document).ready(function() {
 
         if (clickCounter < 1) {
           storedNum = Number(currentNum);
-          currentNum = 0;
         };
+        currentNum = 0;
         clickCounter++;
         currentSetting = 1;
       });
@@ -116,11 +131,11 @@ $(document).ready(function() {
 
       $('#equals').click(function() {
 
-        if (currentOperand === undefined) {
+        if (currentOperand === undefined && currentNum === 0 || storedNum === 0) {
           return null;
         };
 
-        if (currentNum === 0) {
+        if (currentNum === 0 && currentSetting != 2) {
           currentNum = storedNum;
         };
 
@@ -130,6 +145,7 @@ $(document).ready(function() {
 
         calculate(currentNum, storedNum, currentOperand);
         checkLength(currentNum);
+        currentNum = Number(currentNum);
 
         screen.textContent = currentNum;
         storedNum = currentIterator;
@@ -156,7 +172,7 @@ $(document).ready(function() {
 
       var decimal = "."
       $('#decimal').click(function() {
-        if (currentSetting === 0 || currentSetting === 2) {
+        if (currentSetting === 2) {
           currentNum = 0;
         };
 
@@ -190,11 +206,23 @@ $(document).ready(function() {
       });
     };
 
+    //Clears everything
+    function clearAll() {
+      $('#clear-all').click(function() {
+        currentNum = 0;
+        storedNum = 0;
+        currentOperand = undefined;
+        screen.textContent = currentNum;
+        currentSetting = 0;
+      });
+    };
+
     addDecimal();
     displayOnScreen();
     operate();
     equals();
     undo();
+    clearAll();
   }
 
 /*
