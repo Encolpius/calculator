@@ -52,12 +52,13 @@ $(document).ready(function() {
       $('.number-button').click(function() {
 
         if (currentSetting === 2) {
+
           currentNum = 0;
           storedNum = 0;
           currentSetting = 0;
         };
-
         if (currentNum === 0) {
+
           if ($(this).val() === '0') {
             return null;
           } else {
@@ -70,6 +71,12 @@ $(document).ready(function() {
         if (currentNum.length >= 11) {
           currentNum = currentNum.slice(0, 11)
         };
+
+        if (currentNum[0] == 0 && currentSetting != 0) {
+          currentNum = Array.from(currentNum);
+          currentNum.shift();
+          currentNum = currentNum.join('');
+        }
 
         screen.textContent = currentNum;
         currentIterator = currentNum;
@@ -192,6 +199,7 @@ $(document).ready(function() {
           currentNum += decimal;
         };
         screen.textContent = currentNum;
+        return currentNum;
       });
     }
 
@@ -209,6 +217,7 @@ $(document).ready(function() {
               currentNum = 0;
             }
             screen.textContent = currentNum;
+            currentSetting = 1;
           };
         };
       });
@@ -229,7 +238,10 @@ $(document).ready(function() {
     function clear() {
       $('#clear').click(function() {
         currentNum = 0;
+        currentIterator = 0;
+        currentNum = currentNum.toString();
         screen.textContent = currentNum;
+        return currentNum;
       });
     };
 
