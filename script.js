@@ -42,8 +42,10 @@ $(document).ready(function() {
       } else {
         currentNum = currentNum / storedNum;
       };
+        if (currentNum === Infinity) {
+          currentNum = 0;
+        }
         currentSetting = 2;
-        return currentNum;
       };
 
 
@@ -57,26 +59,16 @@ $(document).ready(function() {
           storedNum = 0;
           currentSetting = 0;
         };
-        if (currentNum === 0) {
 
-          if ($(this).val() === '0') {
-            return null;
-          } else {
+        if (currentNum === 0) {
             currentNum = $(this).val();
-          };
-        } else {
-          currentNum += $(this).val();
+          } else {
+            currentNum += $(this).val();
         };
 
         if (currentNum.length >= 11) {
           currentNum = currentNum.slice(0, 11)
         };
-
-        if (currentNum[0] == 0 && currentSetting != 0) {
-          currentNum = Array.from(currentNum);
-          currentNum.shift();
-          currentNum = currentNum.join('');
-        }
 
         screen.textContent = currentNum;
         currentIterator = currentNum;
@@ -217,7 +209,6 @@ $(document).ready(function() {
               currentNum = 0;
             }
             screen.textContent = currentNum;
-            currentSetting = 1;
           };
         };
       });
