@@ -198,7 +198,7 @@ $(document).ready(function() {
     //Undoes The Last Number
     function undo() {
       $('#undo').click(function() {
-        if (currentSetting == 0) {
+        if (currentSetting == 0 || currentSetting == 1) {
           if (currentNum == 0) {
             return 0;
           } else {
