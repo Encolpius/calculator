@@ -43,8 +43,10 @@ $(document).ready(function() {
         currentNum = currentNum / storedNum;
       };
         if (currentNum === Infinity) {
-          currentNum = 0;
+          currentNum = String(currentNum)
+          currentNum = "Error!";
         }
+        return currentNum
         currentSetting = 2;
       };
 
@@ -147,9 +149,8 @@ $(document).ready(function() {
 
         calculate(currentNum, storedNum, currentOperand);
         checkLength(currentNum);
-        currentNum = Number(currentNum);
-
         screen.textContent = currentNum;
+        currentNum = Number(currentNum);
         storedNum = currentIterator;
         currentSetting = 2;
       });
