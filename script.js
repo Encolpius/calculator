@@ -13,6 +13,7 @@ $(document).ready(function() {
     var currentIterator = undefined;
     var currentSetting = 0;
     let clickCounter = 0;
+    var decimal = "."
 
     // Operand functions
     function add(currentIterator, storedNum) {
@@ -54,6 +55,12 @@ $(document).ready(function() {
     // Displays on Calculator Screen
     function displayOnScreen() {
       $('.number-button').click(function() {
+
+        if ($(this).val() == 0) {
+          if (currentNum === 0 && storedNum == 0) {
+            return null;
+          };
+        };
 
         if (currentSetting === 2) {
 
@@ -177,7 +184,6 @@ $(document).ready(function() {
     //Adds a decimal
     function addDecimal() {
 
-      var decimal = "."
       $('#decimal').click(function() {
         if (currentSetting === 2) {
           currentNum = 0;
