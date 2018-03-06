@@ -237,7 +237,6 @@ $(document).ready(function() {
       $('#clear').click(function() {
         currentNum = 0;
         currentIterator = 0;
-        currentNum = currentNum.toString();
         screen.textContent = currentNum;
         return currentNum;
       });
